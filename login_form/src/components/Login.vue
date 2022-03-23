@@ -6,32 +6,59 @@
         <h3 class="form_title">Вход</h3>
         <div class="desktop_input">
           <span>Логин: </span>
-          <input type="text" class="form_input">
+          <input type="text" id="login" class="form_input">
         </div>
         <div class="desktop_input">
           <span>Пароль: </span>
-          <input type="password" class="form_input">
+          <input type="password" id="password" class="form_input">
         </div>
         <div class="mobile_input">
-          <input type="text" class="form_input" placeholder="Логин">
+          <input type="text" class="form_input" id="login" placeholder="Логин">
         </div>
         <div class="mobile_input">
-            <input type="password" class="form_input" placeholder="Пароль">
+            <input type="password" id="password" class="form_input" placeholder="Пароль">
         </div>
         <p>
           <input class="checkbox" id="input" type="checkbox">
           <label class="checkbox_text" for="input">Запомнить данные пользователя</label>
         </p>
         <p>
-            <button class="form_btn">Войти</button>
+            <button v-on:click="signIn" type="button" class="form_btn">Войти</button>
         </p>
       </form>
   </div>
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 
 export default {
+  methods: {
+    signIn() {
+      const login :HTMLInputElement = document.getElementById('login') as HTMLInputElement;
+      const password :HTMLInputElement = document.getElementById('password') as HTMLInputElement;
+      console.log(login.value);
+      console.log(password.value);
+      const data = {
+        login: login.value,
+        pass: password.value,
+      };
+      const config = {
+        url: 'https://690df4bc-7e06-4e17-8caa-3370b8c65949.mock.pstmn.io/auth/sign',
+      };
+      axios.post(config.url, data, { headers: { 'x-mock-match-request-body': true } })
+        .then((response) => {
+          console.log(response.data.isRegure);
+          if (response.data.isRegure) {
+            alert('Вы успешно авторизовались');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Неверный логин или пароль');
+        });
+    },
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <iframe :srcdoc="results" class="frame" id="frame"></iframe>
+  <div v-html="results"></div>
 </template>
 
 <script lang="ts">
