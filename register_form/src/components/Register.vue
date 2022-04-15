@@ -97,9 +97,10 @@ export default {
 }
 .form-div {
   display: flex;
+  align-items: center;
 }
 .logo_big {
-  width: 50%;
+  width: 40%;
   background: #444;
 }
 .mobile_input {
