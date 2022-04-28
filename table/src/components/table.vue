@@ -6,7 +6,7 @@
       <tr><th>id</th><th>ФИО</th><th>Возраст</th><th>Почта</th></tr>
       <tr v-on:click="FindById(item.id)" v-for="(item) in list" :key="item.id">
         <td>{{ item.id }}</td>
-        <td>{{ item.fio }}</td>
+        <td>{{ item.name }}</td>
         <td>{{ item.age }}</td>
         <td>{{ item.email }}</td>
       </tr>
@@ -20,7 +20,7 @@
         </div>
         <div class="modal-body">
           <p>ID: {{element.id}}</p>
-          <p>ФИО: {{element.fio}}</p>
+          <p>ФИО: {{element.name}}</p>
           <p>Возраст: {{element.age}}</p>
           <p>Email: {{element.email}}</p>
         </div>
@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
 import axios from 'axios';
 
 export default {
@@ -42,9 +43,12 @@ export default {
   methods: {
     GetList() {
       const config = {
-        url: 'https://8ec468a2-6c3b-4797-a0df-e2cfb9329e22.mock.pstmn.io',
+        url: 'api/user/list',
       };
-      axios.get(config.url)
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      axios.get(config.url, { headers })
         .then((response) => {
           console.log(response.data);
           this.list = response.data;
@@ -54,14 +58,19 @@ export default {
           console.log(error);
         });
     },
-    FindById(i) {
+    FindById(i: number) {
       const config = {
-        url: 'https://8ec468a2-6c3b-4797-a0df-e2cfb9329e22.mock.pstmn.io/',
+        url: 'api/user/find',
       };
-      axios.get(config.url + i)
+      const data = {
+        'id': i,
+      };
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      axios.post(config.url, data, { headers })
         .then((response) => {
-          console.log(response.data);
-          this.element = response.data;
+          this.element = response.data.user;
           const modal :HTMLDivElement = document.querySelector('#openModal');
           modal.style.opacity = '1';
           modal.style.pointerEvents = 'auto';
