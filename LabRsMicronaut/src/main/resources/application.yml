@@ -1,0 +1,12 @@
+micronaut:
+  application:
+    name: labrsmicronaut
+  server:
+    port: 9999
+    netty:
+      access-logger:
+        enabled: true
+netty:
+  default:
+    allocator:
+      max-order: 3
